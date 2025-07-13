@@ -12,16 +12,11 @@ const addInventory = async (req, res) => {
     }
 
     const newInventory = new Inventory({
-      product,
-      quantity,
-      price,
-      costPrice,
-      location,
-      remarks,
-    });
+      product, quantity,price,costPrice,location,remarks,});
 
     await newInventory.save();
     res.status(201).json({ message: "Inventory added successfully", data: newInventory });
+    console.log("Inventory added successfully:", newInventory);
   } catch (error) {
     console.error("Error adding inventory:", error);
     res.status(500).json({ message: "Server error" });
@@ -33,11 +28,7 @@ const updateInventory = async (req, res) => {
     const inventoryId = req.params.id;
     const updates = req.body;
 
-    const updatedInventory = await Inventory.findByIdAndUpdate(
-      inventoryId,
-      updates,
-      { new: true, runValidators: true }
-    );
+    const updatedInventory = await Inventory.findByIdAndUpdate(inventoryId,updates,{ new: true, runValidators: true });
 
     if (!updatedInventory) {
       return res.status(404).json({ message: "Inventory item not found" });
@@ -54,7 +45,4 @@ const updateInventory = async (req, res) => {
 };
 
 
-module.exports = {
-  addInventory,
-  updateInventory
-};
+module.exports = {addInventory,updateInventory};
